@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Kriteria;
+use App\Models\Tanaman;
 
 class DashboardController extends Controller
 {
@@ -12,16 +15,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Contoh mengambil data untuk dikirim ke view
-        $jumlahUser = User::count();
-        $jumlahKriteria = 5; // Angka statis atau dari model lain
-        $jumlahTanaman = 3;  // Angka statis atau dari model lain
+        $userCount = User::count();
+        $criteriaCount = Kriteria::count();
+        $plantCount = Tanaman::count();
 
-        // Mengirim data ke view menggunakan array asosiatif
-        return view('dashboard.index', [
-            'userCount' => $jumlahUser,
-            'criteriaCount' => $jumlahKriteria,
-            'plantCount' => $jumlahTanaman,
+        return view('admin.dashboard.index', [
+            'userCount' => $userCount,
+            'criteriaCount' => $criteriaCount,
+            'plantCount' => $plantCount,
         ]);
     }
 
