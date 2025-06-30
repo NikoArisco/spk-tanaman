@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KriteriaController;
 
 Route::get('/', function () {
@@ -32,7 +33,5 @@ Route::middleware(['auth', 'admin:Admin'])->prefix('admin')->name('admin.')->gro
 
 // Rute dashboard bisa diakses semua peran yang sudah login
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
