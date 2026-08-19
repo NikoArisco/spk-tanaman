@@ -53,23 +53,10 @@ class TanamanController extends Controller
             DB::commit();
 
             return redirect()->route('admin.tanaman.index')->with('success', 'Data tanaman berhasil ditambahkan.');
-            // } catch (\Exception $e) {
-            //     DB::rollBack();
-            //     // Optional: Log the error
-            //     // Log::error($e->getMessage());
-            //     return redirect()->back()->withInput()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
-            // }
         } catch (\Exception $e) {
             DB::rollBack();
-
-            // =======================================================
-            // == UBAH BAGIAN CATCH INI UNTUK DEBUGGING ==
-            // =======================================================
-            // Hentikan eksekusi dan tampilkan pesan error yang sebenarnya
-            dd($e->getMessage());
-            // =======================================================
-
-            // return redirect()->back()->withInput()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
+            \Illuminate\Support\Facades\Log::error('Gagal menambahkan tanaman: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan data tanaman. Silakan coba lagi.');
         }
     }
 

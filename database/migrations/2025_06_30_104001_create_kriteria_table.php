@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kriteria', function (Blueprint $table) {
-            $table->id(); // Primary Key [cite: 82, 178]
-            $table->string('nama_kriteria'); // Nama kriteria dari dokumen [cite: 49]
-            $table->float('bobot'); // [cite: 49, 82, 169, 178]
-            $table->enum('tipe', ['benefit', 'cost']); // [cite: 49, 82, 169, 178]
+            $table->id(); // Primary Key
+            $table->string('kode')->nullable(); // Kode Kriteria (C1, C2, dll)
+            $table->string('nama_kriteria'); // Nama kriteria
+            $table->float('bobot');
+            $table->enum('tipe', ['benefit', 'cost']);
             $table->timestamps();
         });
     }
