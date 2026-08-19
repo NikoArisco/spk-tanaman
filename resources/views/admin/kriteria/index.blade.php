@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-    {{-- Menampilkan pesan sukses --}}
     @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -26,8 +25,11 @@
     @endif
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Daftar Kriteria</h3>
+            <h3 class="card-title">Daftar Kriteria & Status Bobot</h3>
             <div class="card-tools">
+                <span class="badge {{ round($totalBobot, 2) == 1.0 ? 'bg-success' : 'bg-warning' }} mr-2" style="font-size: 14px;">
+                    Total Bobot: {{ round($totalBobot, 2) }} / 1.00 ({{ round($totalBobot * 100) }}%)
+                </span>
                 <a href="{{ route('admin.kriteria.create') }}" class="btn btn-primary btn-sm">Tambah Data</a>
             </div>
         </div>
@@ -36,8 +38,9 @@
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
+                        <th>Kode</th>
                         <th>Nama Kriteria</th>
-                        <th>Bobot</th>
+                        <th>Bobot (w)</th>
                         <th>Tipe</th>
                         <th style="width: 150px">Aksi</th>
                     </tr>
@@ -46,18 +49,21 @@
                     @forelse ($kriteria as $data)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td><span class="badge bg-secondary">{{ $data->kode ?? ('C' . $loop->iteration) }}</span></td>
                             <td>{{ $data->nama_kriteria }}</td>
-                            <td>{{ $data->bobot }}</td>
-                            <td>{{ $data->tipe }}</td>
+                            <td><b>{{ $data->bobot }}</b></td>
+                            <td>
+                                @if(strtolower($data->tipe) == 'benefit')
+                                    <span class="badge bg-info">Benefit</span>
+                                @else
+                                    <span class="badge bg-danger">Cost</span>
+                                @endif
+                            </td>
                             <td>
                                 <form action="{{ route('admin.kriteria.destroy', $data->id) }}" method="POST">
-                                    {{-- Tombol Edit --}}
                                     <a href="{{ route('admin.kriteria.edit', $data->id) }}" class="btn btn-xs btn-warning">Edit</a>
-                            
                                     @csrf
-                                    @method('DELETE') {{-- Method spoofing untuk request DELETE --}}
-                            
-                                    {{-- Tombol Hapus dengan konfirmasi JavaScript --}}
+                                    @method('DELETE')
                                     <button type="submit" class="btn btn-xs btn-danger" 
                                             onclick="return confirm('Anda yakin ingin menghapus data ini?')">Hapus</button>
                                 </form>
@@ -65,7 +71,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">Data tidak ada</td>
+                            <td colspan="6" class="text-center">Data tidak ada</td>
                         </tr>
                     @endforelse
                 </tbody>

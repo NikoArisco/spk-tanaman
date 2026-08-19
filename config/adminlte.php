@@ -264,7 +264,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => 'profile',
     'disable_darkmode_routes' => false,
 
     /*
@@ -310,6 +310,13 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'text' => 'Keluar',
+            'url'  => 'logout',
+            'method' => 'post',
+            'icon' => 'fas fa-fw fa-sign-out-alt text-danger',
+            'topnav_right' => true,
+        ],
 
         // Sidebar items:
         [
@@ -327,31 +334,45 @@ return [
             'icon' => 'fas fa-fw fa-calculator',
         ],
         [
-            'text' => 'Riwayat Perhitungan', // <-- TAMBAHKAN INI
+            'text' => 'Riwayat Perhitungan',
             'route'  => 'riwayat.index',
             'icon' => 'fas fa-fw fa-history',
         ],
         [
             'header' => 'Manajemen Data',
-            'can' => 'admin', // <-- Tambahkan ini untuk membatasi akses
+            'can' => 'admin',
         ],
         [
             'text' => 'Kriteria',
-            'url'  => 'admin/kriteria', // URL kita isi nanti setelah route dibuat
+            'url'  => 'admin/kriteria',
             'icon' => 'fas fa-fw fa-balance-scale',
-            'can' => 'admin', // <-- Tambahkan ini untuk membatasi akses
+            'can' => 'admin',
         ],
         [
-            'text' => 'Pengguna', // <-- Tambahkan ini
+            'text' => 'Pengguna',
             'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa-users',
-            'can' => 'admin', // <-- Tambahkan ini untuk membatasi akses
+            'can' => 'admin',
         ],
         [
             'text' => 'Tanaman',
             'url'  => 'admin/tanaman',
             'icon' => 'fas fa-fw fa-leaf',
-            'can' => 'admin', // <-- Tambahkan ini untuk membatasi akses
+            'can' => 'admin',
+        ],
+        [
+            'header' => 'Pengaturan Akun',
+        ],
+        [
+            'text' => 'Profil Saya',
+            'route' => 'profile.show',
+            'icon' => 'fas fa-fw fa-user-cog',
+        ],
+        [
+            'text' => 'Keluar / Logout',
+            'url' => 'logout',
+            'method' => 'post',
+            'icon' => 'fas fa-fw fa-sign-out-alt text-danger',
         ],
     ],
 
@@ -390,6 +411,21 @@ return [
     */
 
     'plugins' => [
+        'SPKTheme' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'css/spk-theme.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap',
+                ],
+            ],
+        ],
         'Datatables' => [
             'active' => false,
             'files' => [
